@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Check domain registry expire date
         id: check-domain
-        uses: fenbi/action-check-domain@v2
+        uses: fenbi/action-check-domain@v1
         with:
           url: ${{ matrix.domain }}
           check_action: registry
@@ -61,7 +61,7 @@ jobs:
     steps:
       - name: Check domain SSL expire date
         id: check-domain
-        uses: fenbi/action-check-domain@v2
+        uses: fenbi/action-check-domain@v1
         with:
           url: ${{ matrix.domain }}
           check_action: ssl
