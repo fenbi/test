@@ -1,8 +1,7 @@
 name: Check DDDDDDD
 
 on:
-  schedule:
-    - cron: '* * * * *'
+  - push
 
 jobs:
   check_domain:
