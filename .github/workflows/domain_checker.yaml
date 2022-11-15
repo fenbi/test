@@ -4,7 +4,7 @@ on:
   - push
 
 jobs:
-  check_domain:
+  check_registry:
     runs-on: ubuntu-latest
     name: Check Registry
     strategy:
@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Check domain SSL and registry expire date
         id: check-domain
-        uses: fenbi/action-check-domain@v1
+        uses: fenbi/action-check-domain@v2
         with:
           url: ${{ matrix.domain }}
           check_domain: true
@@ -61,13 +61,13 @@ jobs:
     steps:
       - name: Check domain SSL and registry expire date
         id: check-domain
-        uses: fenbi/action-check-domain@v1
+        uses: fenbi/action-check-domain@v2
         with:
           url: ${{ matrix.domain }}
           check_ssl: true
 
       - name: Create an issue if SSL lifespan days number is below limit
-        if: ${{ steps.check-domain.outputs.ssl-expire-days-left && steps.check-domain.outputs.ssl-expire-days-left < 30 }}
+        if: ${{ steps.check-domain.outputs.ssl-expire-days-left && steps.check-domain.outputs.ssl-expire-days-left < 180 }}
         uses: rishabhgupta/git-action-issue@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
