@@ -2,73 +2,73 @@ name: Check Registry & SSL
 
 on:
   schedule:
-    - cron:  '0/10 * * * *'
+    - cron: '0/10 * * * *'
 
 jobs:
   check_domain:
     runs-on: ubuntu-latest
     name: Check Registry
-      strategy:
-        matrix:
-          domain:
-            - https://apiglobal.com
-            - https://colorfulclouds.com
-            - https://colorfulclouds.net
-            - https://caiyunapp.com
-            - https://caiyunai.com
-            - https://caiyunhub.com
-            - https://caiyuncdn.com
-            - https://cyapi.cn
-            - https://ccops.net
-            - https://ccluster.net
-            - https://dreamily.ai
+    strategy:
+      matrix:
+        domain:
+          - https://apiglobal.com
+          - https://colorfulclouds.com
+          - https://colorfulclouds.net
+          - https://caiyunapp.com
+          - https://caiyunai.com
+          - https://caiyunhub.com
+          - https://caiyuncdn.com
+          - https://cyapi.cn
+          - https://ccops.net
+          - https://ccluster.net
+          - https://dreamily.ai
 
     steps:
-        - name: Check domain SSL and registry expire date
-          id: check-domain
-          uses: codex-team/action-check-domain@v1
-          with:
-            url: ${{ matrix.domain }}
+      - name: Check domain SSL and registry expire date
+        id: check-domain
+        uses: codex-team/action-check-domain@v1
+        with:
+          url: ${{ matrix.domain }}
 
-        - name: Create an issue if paid till number is below limit
-          if: ${{ steps.check-domain.outputs.paid-till-days-left && steps.check-domain.outputs.paid-till-days-left < 60 }}
-          uses: rishabhgupta/git-action-issue@v2
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            title: ⚠️ ${{ matrix.domain }} — registry expiries in ${{ steps.check-domain.outputs.paid-till-days-left }} days
-            body: 'Paid till: `${{ steps.check-domain.outputs.paid-till-date }}`'
+      - name: Create an issue if paid till number is below limit
+        if: ${{ steps.check-domain.outputs.paid-till-days-left && steps.check-domain.outputs.paid-till-days-left < 60 }}
+        uses: rishabhgupta/git-action-issue@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: ⚠️ ${{ matrix.domain }} — registry expiries in ${{ steps.check-domain.outputs.paid-till-days-left }} days
+          body: 'Paid till: `${{ steps.check-domain.outputs.paid-till-date }}`'
 
   check_ssl:
     runs-on: ubuntu-latest
     name: Check SSL
-      strategy:
-        matrix:
-          domain:
-            - https://caiyunapp.com
-            - https://h5.caiyunapp.com
-            - https://api.caiyunapp.com
-            - https://fanyi.caiyunapp.com
-            - https://interpreter.caiyunai.com
-            - https://api.interpreter.caiyunai.com
-            - https://biz.cyapi.cn
-            - https://sentry.ccops.net
-            - https://ccluster.net
-            - https://rainbow.caiyunhub.com
-            - https://common.caiyuncdn.com
-            - https://colorfulclouds.com
-            - https://analysis.colorfulclouds.net
-            - https://feilian.colorfulclouds.net
+    strategy:
+      matrix:
+        domain:
+          - https://caiyunapp.com
+          - https://h5.caiyunapp.com
+          - https://api.caiyunapp.com
+          - https://fanyi.caiyunapp.com
+          - https://interpreter.caiyunai.com
+          - https://api.interpreter.caiyunai.com
+          - https://biz.cyapi.cn
+          - https://sentry.ccops.net
+          - https://ccluster.net
+          - https://rainbow.caiyunhub.com
+          - https://common.caiyuncdn.com
+          - https://colorfulclouds.com
+          - https://analysis.colorfulclouds.net
+          - https://feilian.colorfulclouds.net
     steps:
-        - name: Check domain SSL and registry expire date
-          id: check-domain
-          uses: codex-team/action-check-domain@v1
-          with:
-            url: ${{ matrix.domain }}
+      - name: Check domain SSL and registry expire date
+        id: check-domain
+        uses: codex-team/action-check-domain@v1
+        with:
+          url: ${{ matrix.domain }}
 
-        - name: Create an issue if SSL lifespan days number is below limit
-          if: ${{ steps.check-domain.outputs.ssl-expire-days-left && steps.check-domain.outputs.ssl-expire-days-left < 30 }}
-          uses: rishabhgupta/git-action-issue@v2
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            title: 🧨 ${{ matrix.domain }} — SSL cert expires in ${{ steps.check-domain.outputs.ssl-expire-days-left }} days
-            body: 'Valid till: `${{ steps.check-domain.outputs.ssl-expire-date }}`'
+      - name: Create an issue if SSL lifespan days number is below limit
+        if: ${{ steps.check-domain.outputs.ssl-expire-days-left && steps.check-domain.outputs.ssl-expire-days-left < 30 }}
+        uses: rishabhgupta/git-action-issue@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: 🧨 ${{ matrix.domain }} — SSL cert expires in ${{ steps.check-domain.outputs.ssl-expire-days-left }} days
+          body: 'Valid till: `${{ steps.check-domain.outputs.ssl-expire-date }}`'
