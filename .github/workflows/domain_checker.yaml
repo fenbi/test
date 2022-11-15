@@ -25,9 +25,10 @@ jobs:
     steps:
       - name: Check domain SSL and registry expire date
         id: check-domain
-        uses: fenbi/action-check-domain@v2
+        uses: fenbi/action-check-domain@v1
         with:
           url: ${{ matrix.domain }}
+          check_domain: true
 
       - name: Create an issue if paid till number is below limit
         if: ${{ steps.check-domain.outputs.paid-till-days-left && steps.check-domain.outputs.paid-till-days-left < 60 }}
@@ -60,9 +61,10 @@ jobs:
     steps:
       - name: Check domain SSL and registry expire date
         id: check-domain
-        uses: fenbi/action-check-domain@v2
+        uses: fenbi/action-check-domain@v1
         with:
           url: ${{ matrix.domain }}
+          check_ssl: true
 
       - name: Create an issue if SSL lifespan days number is below limit
         if: ${{ steps.check-domain.outputs.ssl-expire-days-left && steps.check-domain.outputs.ssl-expire-days-left < 30 }}
