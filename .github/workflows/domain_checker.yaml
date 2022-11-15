@@ -23,12 +23,12 @@ jobs:
           - https://dreamily.ai
 
     steps:
-      - name: Check domain SSL and registry expire date
+      - name: Check domain registry expire date
         id: check-domain
         uses: fenbi/action-check-domain@v2
         with:
           url: ${{ matrix.domain }}
-          check_domain: true
+          check_action: registry
 
       - name: Create an issue if paid till number is below limit
         if: ${{ steps.check-domain.outputs.paid-till-days-left && steps.check-domain.outputs.paid-till-days-left < 60 }}
@@ -59,12 +59,12 @@ jobs:
           - https://analysis.colorfulclouds.net
           - https://feilian.colorfulclouds.net
     steps:
-      - name: Check domain SSL and registry expire date
+      - name: Check domain SSL expire date
         id: check-domain
         uses: fenbi/action-check-domain@v2
         with:
           url: ${{ matrix.domain }}
-          check_ssl: true
+          check_action: ssl
 
       - name: Create an issue if SSL lifespan days number is below limit
         if: ${{ steps.check-domain.outputs.ssl-expire-days-left && steps.check-domain.outputs.ssl-expire-days-left < 180 }}
