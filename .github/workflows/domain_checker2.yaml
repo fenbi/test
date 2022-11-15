@@ -1,8 +1,8 @@
-name: Check Registry & SSL
+name: Check DDDDDDD
 
 on:
   schedule:
-    - cron: '0/10 * * * *'
+    - cron: '* * * * *'
 
 jobs:
   check_domain:
